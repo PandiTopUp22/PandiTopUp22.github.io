@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TOPUP PENDI - All Game Termurah Sukomoro</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+</head>
+<body class="bg-slate-950 text-white" style="font-family:Poppins">
+<div class="max-w-md mx-auto bg-slate-900 min-h-screen">
+<div class="bg-gradient-to-r from-violet-600 to-indigo-600 p-5 text-center">
+<h1 class="text-2xl font-bold">💎 TOPUP PENDI</h1>
+<p class="text-xs opacity-90 mt-1">ALL GAME TERMURAH - SUKOMORO NGANJUK</p>
+<div class="mt-2 text-[10px] bg-white/20 px-3 py-1 rounded-full inline-block">PROSES 1-3 MENIT | 24 JAM</div>
+</div>
+<div class="p-3">
+<div class="grid grid-cols-3 gap-2 mb-4">
+<button onclick="setG('ml')" id="bml" class="bg-violet-600 py-2.5 rounded-xl font-bold text-xs">MLBB</button>
+<button onclick="setG('ff')" id="bff" class="bg-slate-700 py-2.5 rounded-xl font-bold text-xs">FREE FIRE</button>
+<button onclick="setG('pubg')" id="bpubg" class="bg-slate-700 py-2.5 rounded-xl font-bold text-xs">PUBG</button>
+<button onclick="setG('gi')" id="bgi" class="bg-slate-700 py-2.5 rounded-xl font-bold text-xs">GENSHIN</button>
+<button onclick="setG('valo')" id="bvalo" class="bg-slate-700 py-2.5 rounded-xl font-bold text-xs">VALORANT</button>
+<button onclick="setG('hok')" id="bhok" class="bg-slate-700 py-2.5 rounded-xl font-bold text-xs">HOK</button>
+</div>
+<div class="bg-slate-800 p-4 rounded-xl mb-3">
+<p class="font-bold mb-2 text-sm">1. Data Akun</p>
+<input id="uid" placeholder="ID Game / Username" class="w-full p-3 rounded-lg bg-slate-950 border border-slate-700 mb-2 text-sm">
+<input id="sid" placeholder="Server (khusus MLBB)" class="w-full p-3 rounded-lg bg-slate-950 border border-slate-700 text-sm">
+</div>
+<div class="bg-slate-800 p-4 rounded-xl mb-3">
+<p class="font-bold mb-2 text-sm">2. Pilih Nominal</p>
+<div id="list" class="grid grid-cols-2 gap-2"></div>
+</div>
+<div class="bg-slate-800 p-3 rounded-xl mb-4">
+<p class="text-xs font-bold mb-1">3. Pembayaran</p>
+<p class="text-[11px] text-slate-400">DANA, GOPAY, OVO, QRIS, Transfer Bank</p>
+</div>
+<button onclick="order()" class="w-full bg-green-500 py-4 rounded-xl font-bold">PESAN VIA WHATSAPP</button>
+<p class="text-center text-[10px] text-slate-500 mt-3">📍 Sukomoro, Nganjuk | WA: 087778308204</p>
+</div>
+</div>
+<script>
+let g='ml', sel=null, price=null;
+const prod={
+ml:[{n:'86 DM',p:'28k'},{n:'172 DM',p:'47k'},{n:'257 DM',p:'67k'},{n:'344 DM',p:'90k'},{n:'WDP',p:'30k'},{n:'Twilight',p:'138k'}],
+ff:[{n:'70 DM',p:'12k'},{n:'140 DM',p:'25k'},{n:'210 DM',p:'35k'},{n:'355 DM',p:'55k'},{n:'720 DM',p:'100k'},{n:'Membership',p:'30k'}],
+pubg:[{n:'60 UC',p:'15k'},{n:'120 UC',p:'30k'},{n:'250 UC',p:'60k'},{n:'500 UC',p:'115k'},{n:'750 UC',p:'170k'},{n:'1500 UC',p:'335k'}],
+gi:[{n:'60 Crystal',p:'15k'},{n:'300+30',p:'70k'},{n:'980+110',p:'210k'},{n:'1980+260',p:'410k'},{n:'Blessing',p:'65k'},{n:'9800 Crys',p:'1.500k'}],
+valo:[{n:'125 VP',p:'18k'},{n:'420 VP',p:'55k'},{n:'700 VP',p:'90k'},{n:'1375 VP',p:'175k'},{n:'2400 VP',p:'300k'},{n:'4000 VP',p:'485k'}],
+hok:[{n:'80 Token',p:'15k'},{n:'240 Token',p:'45k'},{n:'400 Token',p:'75k'},{n:'800 Token',p:'145k'},{n:'Weekly Card',p:'20k'},{n:'HOK Pass',p:'130k'}]
+};
+function render(){
+let l=document.getElementById('list'); l.innerHTML='';
+prod[g].forEach(i=>{
+let d=document.createElement('div');
+d.className='p-3 rounded-lg border cursor-pointer text-center '+(sel==i.n?'bg-violet-600 border-violet-400':'bg-slate-950 border-slate-700');
+d.innerHTML=`<div class="font-bold text-sm">${i.n}</div><div class="text-xs opacity-80">${i.p}</div>`;
+d.onclick=()=>{sel=i.n; price=i.p; render();};
+l.appendChild(d);
+});
+}
+function setG(x){
+g=x; sel=null;
+['ml','ff','pubg','gi','valo','hok'].forEach(k=>{
+document.getElementById('b'+k).className = k==x?'bg-violet-600 py-2.5 rounded-xl font-bold text-xs border border-violet-300':'bg-slate-700 py-2.5 rounded-xl font-bold text-xs';
+});
+document.getElementById('sid').style.display=x=='ml'?'block':'none';
+render();
+}
+function order(){
+let id=document.getElementById('uid').value;
+let sv=document.getElementById('sid').value;
+if(!id){alert('Isi ID Game dulu Min!');return;}
+if(!sel){alert('Pilih nominal dulu Min!');return;}
+let txt=`Halo Pendi, mau top up ${g.toUpperCase()}%0AID: ${id}%0A${sv?'Server: '+sv+'%0A':''}Item: ${sel} - ${price}%0A%0AMohon diproses ya`;
+let wa='6287778308204';
+window.open('https://wa.me/'+wa+'?text='+txt,'_blank');
+}
+render();
+</script>
+</body>
+  </html>
